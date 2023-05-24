@@ -7,6 +7,11 @@ export const useOrdersStore = defineStore("orders", () => {
   const bids = ref([])
   const asks = ref([])
   const ourOrders = ref([])
+  const errorInfo = ref({
+      show: false,
+      title: "An error has occurred",
+      footer: 'Please refresh the page'
+  })
   const priceDif = ref<string | number>(0)
 
   const spread = computed(() => {
@@ -63,6 +68,7 @@ export const useOrdersStore = defineStore("orders", () => {
 
     webSocket.addEventListener("error", (error) => {
       console.error("WebSocket error:", error)
+      errorInfo.value.show = true;
     })
   }
 
@@ -90,5 +96,5 @@ export const useOrdersStore = defineStore("orders", () => {
     },
   }
 
-  return { bids, asks, api, spread, priceDif }
+  return { bids, asks, api, spread, priceDif, errorInfo }
 })

@@ -1,5 +1,9 @@
 <template>
   <div class="order-book">
+    <div v-if="errorInfo.show">
+      <h3>{{ errorInfo.title }}</h3>
+      <p>{{ errorInfo.footer }}</p>
+    </div>
     <table>
       <thead>
         <tr>
@@ -13,7 +17,12 @@
           <td>
             <div class="price-cell" v-if="bids[index - 1]">
               <span v-if="bids[index - 1][2]">
-                <img title="It is our order" alt="our order" class="our-order-icon" :src="group" />
+                <img
+                  title="It is our order"
+                  alt="our order"
+                  class="our-order-icon"
+                  :src="group"
+                />
               </span>
               <span>{{ parseFloat(bids[index - 1][0]) }}</span>
               <span>-</span>
@@ -31,7 +40,12 @@
           <td>
             <div class="price-cell" v-if="asks[index - 1]">
               <span v-if="asks[index - 1][2]">
-                <img title="It is our order" alt="our order" class="our-order-icon" :src="group" />
+                <img
+                  title="It is our order"
+                  alt="our order"
+                  class="our-order-icon"
+                  :src="group"
+                />
               </span>
               <span>{{ parseFloat(asks[index - 1][0]) }}</span>
               <span>-</span>
@@ -56,6 +70,7 @@ const bids = computed(() => store.bids)
 const asks = computed(() => store.asks)
 const spread = computed(() => store.spread)
 const priceDif = computed(() => store.priceDif)
+const errorInfo = computed(() => store.errorInfo)
 const api = computed(() => store.api)
 
 onMounted(() => {
@@ -73,6 +88,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 table {
@@ -106,7 +122,7 @@ th {
 }
 
 .our-order-icon {
-    margin-right: 14px;
+  margin-right: 14px;
 }
 
 .price-cell {
